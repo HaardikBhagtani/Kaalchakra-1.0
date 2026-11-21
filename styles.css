@@ -2295,3 +2295,275 @@ display: flex;
         max-width: 95%;
     }
 }
+
+/* KAALCHAKRA 2.0 logo reveal */
+html.edition-reveal-open,
+html.edition-reveal-open body {
+    overflow: hidden;
+}
+
+.edition-reveal {
+    --reveal-line: color-mix(in srgb, var(--color-primary) 40%, transparent);
+    --reveal-grid-line: color-mix(in srgb, var(--color-primary) 10%, transparent);
+    --reveal-tint: color-mix(in srgb, var(--color-secondary-dark) 12%, var(--color-bg-card-hover));
+    --reveal-frame-padding: .7rem;
+    --reveal-frame-width: calc(2 * var(--reveal-frame-padding) + 2px);
+    --reveal-viewport-height: 100vh;
+    /* Leave room for the header and caption, then convert height to a 9:16 width. */
+    --reveal-stage-width: clamp(6.5rem, (var(--reveal-viewport-height) - 10rem) * 9 / 16, 22rem);
+
+    position: fixed;
+    inset: 0;
+    width: min(calc(100% - 1.25rem), calc(var(--reveal-stage-width) + var(--reveal-frame-width)));
+    height: fit-content;
+    max-width: none;
+    max-height: calc(100% - 1.25rem);
+    margin: auto;
+    padding: 0;
+    border: 0;
+    border-radius: 2px;
+    background: transparent;
+    color: var(--color-primary-light);
+    color-scheme: dark;
+    box-shadow: var(--shadow-lg);
+}
+
+@supports (height: 100dvh) {
+    .edition-reveal {
+        --reveal-viewport-height: 100dvh;
+    }
+}
+
+.edition-reveal::backdrop {
+    background: rgb(0 0 0 / 82%);
+    background:
+        radial-gradient(
+            ellipse at center,
+            color-mix(in srgb, var(--color-secondary-dark) 10%, transparent),
+            transparent 72%
+        ),
+        radial-gradient(
+            ellipse at center,
+            color-mix(in srgb, var(--color-bg-card-hover) 65%, transparent),
+            color-mix(in srgb, var(--color-bg-darker) 90%, transparent)
+        );
+    backdrop-filter: blur(6px);
+}
+
+.edition-reveal__panel {
+    position: relative;
+    container-type: inline-size;
+    padding: 0 var(--reveal-frame-padding);
+    border: 1px solid var(--color-primary-dark);
+    background-color: var(--color-bg-card);
+    background-image:
+        repeating-linear-gradient(105deg, var(--reveal-grid-line) 0 1px, transparent 1px 5px),
+        linear-gradient(135deg, var(--reveal-tint), var(--color-bg-card) 65%, var(--color-bg-card-hover));
+}
+
+.edition-reveal[open] .edition-reveal__panel {
+    animation: edition-reveal-enter 520ms cubic-bezier(.2, .75, .25, 1) both;
+}
+
+@keyframes edition-reveal-enter {
+    from { opacity: 0; transform: translateY(2rem); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.edition-reveal__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: .45rem;
+    min-height: 3.3rem;
+}
+
+.edition-reveal__label {
+    display: flex;
+    align-items: center;
+    gap: .45rem;
+    color: var(--color-primary);
+    font: 500 .71rem/1.5 var(--font-display);
+    letter-spacing: .14em;
+    text-transform: uppercase;
+}
+
+.edition-reveal__label::before {
+    content: '';
+    width: .5rem;
+    height: .5rem;
+    margin-inline-start: .25rem;
+    border: 1px solid currentColor;
+    transform: rotate(45deg);
+    box-shadow: inset 0 0 0 1px var(--color-bg-dark), inset 0 0 0 4px currentColor;
+}
+
+.edition-reveal__close {
+    position: relative;
+    flex-shrink: 0;
+    width: 2.75rem;
+    height: 2.75rem;
+    border: 1px solid var(--reveal-line);
+    background: var(--color-bg-card-hover);
+    color: var(--color-primary-light);
+    cursor: pointer;
+}
+
+.edition-reveal__close::before,
+.edition-reveal__close::after {
+    content: '';
+    position: absolute;
+    inset: 50% auto auto 50%;
+    width: 1rem;
+    height: 1px;
+    background: currentColor;
+    transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.edition-reveal__close::after {
+    transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+.edition-reveal__close:hover {
+    border-color: var(--color-primary);
+    background: var(--reveal-tint);
+}
+
+.edition-reveal__close:focus-visible {
+    outline: 2px solid var(--color-primary-light);
+    outline-offset: 2px;
+}
+
+.edition-reveal__stage {
+    position: relative;
+    display: grid;
+    place-items: center;
+    isolation: isolate;
+    overflow: hidden;
+    aspect-ratio: 9 / 16;
+    outline: 1px solid var(--color-primary-dark);
+    background: var(--color-bg-darker);
+}
+
+.edition-reveal__chart {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    background-color: var(--color-bg-card);
+    background-image:
+        radial-gradient(ellipse at 58% 22%, color-mix(in srgb, var(--color-secondary-light) 10%, transparent), transparent 62%),
+        linear-gradient(135deg, transparent 48%, var(--reveal-grid-line) 49.9% 50%, transparent 50.2%),
+        repeating-radial-gradient(ellipse at 9% 35%, transparent 0 22px, var(--reveal-grid-line) 23px, transparent 24px 33px),
+        repeating-linear-gradient(90deg, transparent 0 47px, var(--reveal-grid-line) 48px, transparent 49px),
+        repeating-linear-gradient(0deg, transparent 0 47px, var(--reveal-grid-line) 48px, transparent 49px),
+        linear-gradient(155deg, var(--color-bg-card-hover), var(--color-bg-dark) 75%);
+    box-shadow: inset 0 0 5rem color-mix(in srgb, var(--color-bg-darker) 55%, transparent);
+}
+
+.edition-reveal__chart::after {
+    content: '';
+    position: absolute;
+    inset: .7rem;
+    border: 1px solid var(--reveal-line);
+    pointer-events: none;
+}
+
+.edition-reveal__compass {
+    position: relative;
+    width: min(28%, 11rem);
+    aspect-ratio: 1;
+    border: 1px solid var(--reveal-line);
+    border-radius: 50%;
+    background:
+        radial-gradient(circle, var(--color-bg-card-hover) 0 54%, transparent 55%),
+        repeating-conic-gradient(from 0deg, var(--color-primary-dark) 0 1deg, transparent 1deg 15deg);
+    box-shadow: var(--shadow-md);
+}
+
+.edition-reveal__compass::before {
+    content: '';
+    position: absolute;
+    inset: 14%;
+    border: 1px solid var(--reveal-line);
+    border-radius: 50%;
+}
+
+.edition-reveal__compass::after {
+    content: '';
+    position: absolute;
+    inset: 11%;
+    background: conic-gradient(from 0deg, var(--color-primary-light), var(--color-primary-dark), var(--color-primary-light), var(--color-primary-dark), var(--color-primary-light));
+    clip-path: polygon(50% 0, 59% 41%, 100% 50%, 59% 59%, 50% 100%, 41% 59%, 0 50%, 41% 41%);
+    transform: rotate(28deg);
+}
+
+.edition-reveal__status {
+    position: absolute;
+    bottom: 1.2rem;
+    left: 1.3rem;
+    padding: .22rem .55rem;
+    background: var(--color-bg-dark);
+    color: var(--color-primary-light);
+    font: 500 .8rem/1.4 var(--font-accent);
+}
+
+.edition-reveal__video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--color-bg-darker);
+    object-fit: contain;
+    visibility: hidden;
+}
+
+.edition-reveal--video-ready .edition-reveal__video {
+    visibility: visible;
+}
+
+.edition-reveal--video-ready .edition-reveal__chart,
+.edition-reveal--video-ready .edition-reveal__status {
+    display: none;
+}
+
+.edition-reveal__caption {
+    padding: .75rem 0 .85rem;
+}
+
+.edition-reveal__caption h2 {
+    color: var(--color-primary-light);
+    font: 700 1.35rem/1.15 var(--font-display);
+    font-size: clamp(.9rem, 8cqi, 1.8rem);
+    letter-spacing: .04em;
+    overflow-wrap: anywhere;
+}
+
+.edition-reveal__caption h2 em {
+    color: var(--color-primary);
+    font-style: normal;
+}
+
+.edition-reveal__caption p {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .15rem .8rem;
+    margin-top: .35rem;
+    color: var(--color-text-primary);
+    font: 400 1.25rem/1.35 var(--font-accent);
+}
+
+.edition-reveal__caption p span {
+    color: var(--color-primary);
+}
+
+.edition-reveal__caption p span::before {
+    content: '·';
+    margin-right: .8rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .edition-reveal[open] .edition-reveal__panel {
+        animation: none;
+    }
+}

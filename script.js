@@ -324,6 +324,58 @@ function debounce(func, wait) {
     };
 }
 
+async function showEditionReveal() {
+    const dialog = document.getElementById('editionReveal');
+    if (!dialog || typeof dialog.showModal !== 'function') return;
+
+    const panel = dialog.querySelector('.edition-reveal__panel');
+    const video = dialog.querySelector('video');
+    const status = dialog.querySelector('.edition-reveal__status');
+    const root = document.documentElement;
+
+    function showUnavailable() {
+        dialog.classList.remove('edition-reveal--video-ready');
+        status.textContent = 'Video coming soon';
+    }
+
+    dialog.querySelector('.edition-reveal__close').addEventListener('click', () => dialog.close());
+    dialog.addEventListener('click', (event) => {
+        if (event.target === dialog) dialog.close();
+    });
+    dialog.addEventListener('close', () => {
+        video.pause();
+        root.classList.remove('edition-reveal-open');
+    });
+    video.addEventListener('loadeddata', () => dialog.classList.add('edition-reveal--video-ready'));
+    video.addEventListener('error', showUnavailable);
+
+    dialog.showModal();
+    root.classList.add('edition-reveal-open');
+
+    const entrance = panel.getAnimations?.() || [];
+    await Promise.allSettled(entrance.map((animation) => animation.finished));
+    if (!dialog.open) return;
+
+    video.muted = true;
+    try {
+        await video.play();
+    } catch (error) {
+        if (!dialog.open) return;
+        if (video.error || error.name === 'NotSupportedError') {
+            showUnavailable();
+        } else {
+            // Leave the native play control available when autoplay is blocked.
+            dialog.classList.add('edition-reveal--video-ready');
+        }
+    }
+}
+
+if (document.readyState === 'complete') {
+    showEditionReveal();
+} else {
+    window.addEventListener('load', showEditionReveal, { once: true });
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     initCountdown();
     initSnow();
