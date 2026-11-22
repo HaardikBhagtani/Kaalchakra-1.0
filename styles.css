@@ -2567,3 +2567,131 @@ html.edition-reveal-open body {
         animation: none;
     }
 }
+
+/* ===== KAALCHAKRA 1.0 Legacy / Stats ===== */
+.legacy-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 2rem;
+    margin-top: 3rem;
+}
+
+.podium-grid {
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.stat-card {
+    background: var(--color-bg-card);
+    padding: 2.5rem 1.5rem;
+    border: 1px solid var(--color-border);
+    text-align: center;
+    transition: var(--transition-medium);
+}
+
+.stat-card:hover {
+    background: var(--color-bg-card-hover);
+    border-color: var(--color-primary);
+    box-shadow: var(--shadow-glow);
+    transform: translateY(-4px);
+}
+
+.stat-number {
+    font-family: var(--font-display);
+    font-size: 2.6rem;
+    font-weight: 700;
+    color: var(--color-primary);
+    line-height: 1.1;
+}
+
+.stat-label {
+    font-family: var(--font-accent);
+    font-size: 1.05rem;
+    color: var(--color-text-secondary);
+    margin-top: 0.75rem;
+    letter-spacing: 0.5px;
+}
+
+.podium-rank {
+    font-size: 1.4rem;
+    color: var(--color-primary);
+    margin-bottom: 0.5rem;
+}
+
+.podium-team {
+    font-family: var(--font-display);
+    font-size: 1.4rem;
+    color: var(--color-text-primary);
+    margin: 0.25rem 0;
+}
+
+.podium-prize {
+    font-family: var(--font-accent);
+    font-size: 1.1rem;
+    color: var(--color-primary-light);
+}
+
+.legacy-cta {
+    text-align: center;
+    margin-top: 3.5rem;
+}
+
+/* ===== 1.0 Full leaderboard tables ===== */
+.lb-wrap {
+    margin-top: 2rem;
+    overflow-x: auto;
+    border: 1px solid var(--color-border);
+    background: var(--color-bg-card);
+}
+.leaderboard {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: var(--font-accent);
+}
+.leaderboard th,
+.leaderboard td {
+    padding: 0.7rem 1.2rem;
+    border-bottom: 1px solid var(--color-border);
+    text-align: left;
+}
+.leaderboard thead th {
+    position: sticky;
+    top: 0;
+    background: var(--color-bg-darker);
+    color: var(--color-primary);
+    font-family: var(--font-display);
+    font-size: 0.95rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+.leaderboard td.rk { width: 70px; color: var(--color-text-muted); font-weight: 700; }
+.leaderboard td.tm { color: var(--color-text-primary); font-size: 1.1rem; }
+.leaderboard td.sc { text-align: right; color: var(--color-primary-light); font-weight: 700; white-space: nowrap; }
+.leaderboard th.sc { text-align: right; }
+.lb-row:hover { background: var(--color-bg-card-hover); }
+.lb-row.top3 td.tm { color: var(--color-primary); font-weight: 700; }
+
+/* Prize / sponsor detail cards */
+.prize-full, .sponsor-tier { text-align: left; }
+.perk-list {
+    list-style: none;
+    padding: 0;
+    margin: 1rem 0 0;
+}
+.perk-list li {
+    font-family: var(--font-accent);
+    color: var(--color-text-secondary);
+    padding: 0.3rem 0 0.3rem 1.3rem;
+    position: relative;
+    border-bottom: 1px solid var(--color-border);
+}
+.perk-list li::before {
+    content: "⚑";
+    position: absolute;
+    left: 0;
+    color: var(--color-primary);
+}
+.perk-list a { color: var(--color-primary-light); text-decoration: none; }
+.perk-list a:hover { color: var(--color-primary); text-decoration: underline; }
