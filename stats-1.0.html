@@ -90,7 +90,7 @@
         <div class="lb-wrap">
         <table class="leaderboard">
             <thead><tr><th class="rk">#</th><th class="tm">Team</th><th class="sc">Score</th></tr></thead>
-            <tbody>
+            <tbody id="qualsTop">
 <tr class="lb-row top3" data-team="isfcr pesu"><td class="rk">🥇 1</td><td class="tm"><span class="bar" style="width:100.0%"></span><span class="nm">ISFCR PESU</span></td><td class="sc">10,750</td></tr>
 <tr class="lb-row top3" data-team="cryptonite"><td class="rk">🥈 2</td><td class="tm"><span class="bar" style="width:95.3%"></span><span class="nm">Cryptonite</span></td><td class="sc">10,250</td></tr>
 <tr class="lb-row top3" data-team="z0d1ak"><td class="rk">🥉 3</td><td class="tm"><span class="bar" style="width:91.6%"></span><span class="nm">z0d1ak</span></td><td class="sc">9,850</td></tr>
@@ -101,6 +101,8 @@
 <tr class="lb-row" data-team="insighters"><td class="rk">8</td><td class="tm"><span class="bar" style="width:75.8%"></span><span class="nm">Insighters</span></td><td class="sc">8,150</td></tr>
 <tr class="lb-row" data-team="404_gbpiet"><td class="rk">9</td><td class="tm"><span class="bar" style="width:74.0%"></span><span class="nm">404_GBPIET</span></td><td class="sc">7,950</td></tr>
 <tr class="lb-row" data-team="eclipse"><td class="rk">10</td><td class="tm"><span class="bar" style="width:73.0%"></span><span class="nm">Eclipse</span></td><td class="sc">7,850</td></tr>
+            </tbody>
+            <tbody id="qualsRest" hidden>
 <tr class="lb-row" data-team="obfuscat3d0_0c0m3ts"><td class="rk">11</td><td class="tm"><span class="bar" style="width:71.2%"></span><span class="nm">Obfuscat3d0_0C0m3ts</span></td><td class="sc">7,650</td></tr>
 <tr class="lb-row" data-team="knockout-club"><td class="rk">12</td><td class="tm"><span class="bar" style="width:67.4%"></span><span class="nm">knockout-club</span></td><td class="sc">7,250</td></tr>
 <tr class="lb-row" data-team="gnomes"><td class="rk">13</td><td class="tm"><span class="bar" style="width:66.5%"></span><span class="nm">Gnomes</span></td><td class="sc">7,150</td></tr>
@@ -280,6 +282,7 @@
             </tbody>
         </table>
         </div>
+        <button type="button" class="lb-morebtn" id="qualMore">Show all 186 teams</button>
         </div>
 
         <div id="tab-prizes" class="lb-panel">
@@ -322,11 +325,23 @@ document.querySelectorAll('.lb-tab').forEach(btn=>{
         document.getElementById('tab-'+btn.dataset.tab).classList.add('active');
     });
 });
+const rest=document.getElementById('qualsRest');
+const moreBtn=document.getElementById('qualMore');
+if(moreBtn){
+    moreBtn.addEventListener('click',()=>{
+        const open=rest.hidden===false;
+        rest.hidden=open;
+        moreBtn.textContent=open?'Show all 186 teams':'Show fewer teams';
+    });
+}
 const search=document.getElementById('teamSearch');
 if(search){
     const empty=document.getElementById('searchEmpty');
     search.addEventListener('input',()=>{
-        const q=search.value.trim().toLowerCase(); let shown=0;
+        const q=search.value.trim().toLowerCase();
+        if(q){ rest.hidden=false; if(moreBtn) moreBtn.hidden=true; }
+        else { if(moreBtn){ moreBtn.hidden=false; rest.hidden=true; moreBtn.textContent='Show all 186 teams'; } }
+        let shown=0;
         document.querySelectorAll('#tab-quals .lb-row').forEach(r=>{
             const hit=r.dataset.team.includes(q); r.style.display=hit?'':'none'; if(hit) shown++;
         });
